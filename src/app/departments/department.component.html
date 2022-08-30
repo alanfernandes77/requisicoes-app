@@ -32,7 +32,7 @@
           <tbody class="text-center">
             <tr *ngFor="let department of (departments$ | async)">
               <td>{{ department.name }}</td>
-              <td>{{ department.phone }}</td>
+              <td>{{ department.phone | phone }}</td>
               <td class="d-grid d-md-block">
                 <button
                 (click)="save(modal, department)"
@@ -65,7 +65,8 @@
         <input formControlName="name"
           class="form-control"
           type="text"
-          placeholder="Digite o nome do departamento">
+          placeholder="Digite o nome do departamento"
+          maxlength="30">
       </div>
 
       <div class="form-group mb-3">
@@ -73,7 +74,7 @@
         <input formControlName="phone"
           class="form-control"
           type="text"
-          placeholder="Digite o número de telefone do departamento">
+          mask="(00) 00000-0000">
       </div>
     </div>
     <div class="modal-footer">

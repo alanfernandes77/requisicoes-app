@@ -5,6 +5,8 @@ import { DepartmentRoutingModule } from './department-routing.module';
 import { DepartmentComponent } from './department.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxMaskModule } from 'ngx-mask';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [DepartmentComponent],
@@ -12,7 +14,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     NgbModule,
     ReactiveFormsModule,
-    DepartmentRoutingModule
+    DepartmentRoutingModule,
+    NgxMaskModule.forChild(),
+    SharedModule
   ]
 })
 export class DepartmentModule {}
