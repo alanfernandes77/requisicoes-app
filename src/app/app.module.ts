@@ -17,13 +17,14 @@ import { PanelComponent } from './panel/panel.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { DepartmentModule } from './departments/department.module';
 import { EquipmentModule } from './equipments/equipment.module';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     PanelComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +36,7 @@ import { EquipmentModule } from './equipments/equipment.module';
     ReactiveFormsModule,
     DepartmentModule,
     EquipmentModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [AuthenticationService],
   bootstrap: [AppComponent]

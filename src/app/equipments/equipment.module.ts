@@ -5,6 +5,8 @@ import { EquipmentRoutingModule } from './equipment-routing.module';
 import { EquipmentComponent } from './equipment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [EquipmentComponent],
@@ -12,7 +14,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     NgbModule,
     ReactiveFormsModule,
-    EquipmentRoutingModule
+    EquipmentRoutingModule,
+    NgxMaskModule.forChild(),
+    SharedModule
   ]
 })
 export class EquipmentModule {}

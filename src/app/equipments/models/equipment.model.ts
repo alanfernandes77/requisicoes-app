@@ -6,5 +6,4 @@ export class Equipment {
   name: string;
   price: number;
   manufacturingDate: Date;
-
 }
