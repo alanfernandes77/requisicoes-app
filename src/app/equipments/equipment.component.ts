@@ -23,8 +23,6 @@ export class EquipmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.equipments$ = this.equipmentService.getAll();
-
     this.form = this.formBuilder.group({
       id: new FormControl(),
       serialNumber: new FormControl(),
@@ -32,6 +30,8 @@ export class EquipmentComponent implements OnInit {
       price: new FormControl(),
       manufacturingDate: new FormControl()
     })
+
+    this.equipments$ = this.equipmentService.getAll();
   }
 
   get modalTitle(): string {
@@ -70,14 +70,14 @@ export class EquipmentComponent implements OnInit {
 
       if (equipment) {
         await this.equipmentService.update(this.form.value);
-        this.notifierService.success('Registro atualizado com sucesso!');
+        this.notifierService.success('Equipamento atualizado com sucesso!');
       } else {
         await this.equipmentService.insert(this.form.value);
-        this.notifierService.success('Registro adicionado com sucesso!');
+        this.notifierService.success('Equipamento adicionado com sucesso!');
       }
     } catch (err) {
       console.log(err);
-      if (err !== 'close' && err !== 0 && err !== 1) {
+      if (err != 'close' && err != 0 && err != 1) {
         this.notifierService.error('Erro ao executar ação.');
       }
     }
@@ -85,6 +85,6 @@ export class EquipmentComponent implements OnInit {
 
   async delete(equipment: Equipment) {
     this.equipmentService.delete(equipment);
-    this.notifierService.success('Registro excluído com sucesso');
+    this.notifierService.success('Equipamento excluído com sucesso');
   }
 }

@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from '../shared/shared.module';
+import { DepartmentService } from './services/department.service';
 
 @NgModule({
   declarations: [DepartmentComponent],
@@ -17,6 +18,7 @@ import { SharedModule } from '../shared/shared.module';
     DepartmentRoutingModule,
     NgxMaskModule.forChild(),
     SharedModule
-  ]
+  ],
+  providers: [DepartmentService]
 })
 export class DepartmentModule {}

@@ -22,13 +22,13 @@ export class DepartmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.departments$ = this.departmentService.getAll();
-
     this.form = this.formBuilder.group({
       id: new FormControl(),
       name: new FormControl(),
       phone: new FormControl(),
     });
+
+    this.departments$ = this.departmentService.getAll();
   }
 
   get modalTitle(): string {
@@ -59,14 +59,14 @@ export class DepartmentComponent implements OnInit {
 
       if (department) {
         await this.departmentService.update(this.form.value);
-        this.notifierService.success('Registro atualizado com sucesso!');
+        this.notifierService.success('Departamento atualizado com sucesso!');
       } else {
         await this.departmentService.insert(this.form.value);
-        this.notifierService.success('Registro adicionado com sucesso!');
+        this.notifierService.success('Departamento adicionado com sucesso!');
       }
 
     } catch (err) {
-      if (err !== 'close' && err !== 0 && err !== 1) {
+      if (err != 'close' && err != 0 && err != 1) {
         this.notifierService.error('Erro ao executar ação.');
       }
     }
@@ -74,6 +74,6 @@ export class DepartmentComponent implements OnInit {
 
   async delete(department: Department) {
     this.departmentService.delete(department);
-    this.notifierService.success('Registro excluído com sucesso');
+    this.notifierService.success('Departamento excluído com sucesso');
   }
 }

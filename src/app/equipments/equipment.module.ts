@@ -7,6 +7,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from '../shared/shared.module';
+import { EquipmentService } from './services/equipment.service';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 @NgModule({
   declarations: [EquipmentComponent],
@@ -16,7 +18,9 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     EquipmentRoutingModule,
     NgxMaskModule.forChild(),
-    SharedModule
-  ]
+    SharedModule,
+    CurrencyMaskModule
+  ],
+  providers: [EquipmentService]
 })
 export class EquipmentModule {}
