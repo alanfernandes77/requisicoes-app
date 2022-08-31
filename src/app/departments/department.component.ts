@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
+import { NotifierService } from '../shared/services/notifier.service';
 import { Department } from './models/department.model';
 import { DepartmentService } from './services/department.service';
 
@@ -14,6 +15,7 @@ export class DepartmentComponent implements OnInit {
   form: FormGroup;
 
   constructor(
+    private notifierService: NotifierService,
     private departmentService: DepartmentService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder
@@ -57,15 +59,21 @@ export class DepartmentComponent implements OnInit {
 
       if (department) {
         await this.departmentService.update(this.form.value);
+        this.notifierService.success('Registro atualizado com sucesso!');
       } else {
         await this.departmentService.insert(this.form.value);
+        this.notifierService.success('Registro adicionado com sucesso!');
       }
 
-      console.log('departamento salvo com sucesso');
-    } catch (_err) {}
+    } catch (err) {
+      if (err !== 'close' && err !== 0 && err !== 1) {
+        this.notifierService.error('Erro ao executar ação.');
+      }
+    }
   }
 
   async delete(department: Department) {
     this.departmentService.delete(department);
+    this.notifierService.success('Registro excluído com sucesso');
   }
 }

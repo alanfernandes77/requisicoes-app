@@ -1,7 +1,9 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { NotifierService } from '../shared/services/notifier.service';
 import { Equipment } from './models/equipment.model';
 import { EquipmentService } from './services/equipment.service';
 
@@ -14,6 +16,7 @@ export class EquipmentComponent implements OnInit {
   form: FormGroup;
 
   constructor(
+    private notifierService: NotifierService,
     private equipmentService: EquipmentService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder
@@ -30,7 +33,6 @@ export class EquipmentComponent implements OnInit {
       manufacturingDate: new FormControl()
     })
   }
-
 
   get modalTitle(): string {
     return this.id?.value ? 'Atualização' : 'Cadastro';
@@ -56,7 +58,6 @@ export class EquipmentComponent implements OnInit {
     return this.form.get('manufacturingDate')
   }
 
-
   async save(modal: TemplateRef<any>, equipment?: Equipment) {
     this.form.reset();
 
@@ -69,15 +70,21 @@ export class EquipmentComponent implements OnInit {
 
       if (equipment) {
         await this.equipmentService.update(this.form.value);
+        this.notifierService.success('Registro atualizado com sucesso!');
       } else {
         await this.equipmentService.insert(this.form.value);
+        this.notifierService.success('Registro adicionado com sucesso!');
       }
-
-      console.log('equipamento salvo com sucesso');
-    } catch (_err) {}
+    } catch (err) {
+      console.log(err);
+      if (err !== 'close' && err !== 0 && err !== 1) {
+        this.notifierService.error('Erro ao executar ação.');
+      }
+    }
   }
 
   async delete(equipment: Equipment) {
     this.equipmentService.delete(equipment);
+    this.notifierService.success('Registro excluído com sucesso');
   }
 }

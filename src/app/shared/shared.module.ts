@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PhonePipe } from './phone-pipe/phone.pipe';
-import { SerialNumberPipe } from './serialNumber-pipe/serial-number.pipe';
+import { PhonePipe } from './pipes/phone.pipe';
+import { SerialNumberPipe } from './pipes/serial-number.pipe';
+;
 
 @NgModule({
   declarations: [

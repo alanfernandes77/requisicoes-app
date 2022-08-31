@@ -18,6 +18,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { DepartmentModule } from './departments/department.module';
 import { EquipmentModule } from './equipments/equipment.module';
 import { NgxMaskModule } from 'ngx-mask';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { NgxMaskModule } from 'ngx-mask';
     ReactiveFormsModule,
     DepartmentModule,
     EquipmentModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [AuthenticationService],
   bootstrap: [AppComponent]
