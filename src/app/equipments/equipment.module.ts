@@ -19,8 +19,8 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     EquipmentRoutingModule,
     NgxMaskModule.forChild(),
     SharedModule,
-    CurrencyMaskModule
+    CurrencyMaskModule,
   ],
-  providers: [EquipmentService]
+  providers: [EquipmentService],
 })
 export class EquipmentModule {}

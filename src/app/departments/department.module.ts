@@ -17,8 +17,8 @@ import { DepartmentService } from './services/department.service';
     ReactiveFormsModule,
     DepartmentRoutingModule,
     NgxMaskModule.forChild(),
-    SharedModule
+    SharedModule,
   ],
-  providers: [DepartmentService]
+  providers: [DepartmentService],
 })
 export class DepartmentModule {}

@@ -10,16 +10,14 @@ import { Department } from '../models/department.model';
   providedIn: 'root',
 })
 export class DepartmentService {
-
   private registers: AngularFirestoreCollection<Department>;
 
   constructor(private firestore: AngularFirestore) {
-    this.registers = this.firestore.collection<Department>("departments");
+    this.registers = this.firestore.collection<Department>('departments');
   }
 
   async insert(department: Department): Promise<any> {
-    if (!department)
-      return Promise.reject('Item inválido');
+    if (!department) return Promise.reject('Item inválido');
 
     const result = await this.registers.add(department);
 

@@ -15,8 +15,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from './auth/services/authentication.service';
 import { PanelComponent } from './panel/panel.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { DepartmentModule } from './departments/department.module';
-import { EquipmentModule } from './equipments/equipment.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,31 +26,26 @@ import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 registerLocaleData(ptBr);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    PanelComponent,
-    NavbarComponent,
-  ],
+  declarations: [AppComponent, LoginComponent, PanelComponent, NavbarComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
     ReactiveFormsModule,
-    DepartmentModule,
-    EquipmentModule,
     NgxMaskModule.forRoot(),
-    ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+    }),
   ],
   providers: [
     AuthenticationService,
-    { provide: LOCALE_ID, useValue: 'pt'},
-    { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL'}
+    { provide: LOCALE_ID, useValue: 'pt' },
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

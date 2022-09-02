@@ -1,7 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { NotifierService } from '../shared/services/notifier.service';
 import { Equipment } from './models/equipment.model';
@@ -28,8 +27,8 @@ export class EquipmentComponent implements OnInit {
       serialNumber: new FormControl(),
       name: new FormControl(),
       price: new FormControl(),
-      manufacturingDate: new FormControl()
-    })
+      manufacturingDate: new FormControl(),
+    });
 
     this.equipments$ = this.equipmentService.getAll();
   }
@@ -55,7 +54,7 @@ export class EquipmentComponent implements OnInit {
   }
 
   get manufacturingDate() {
-    return this.form.get('manufacturingDate')
+    return this.form.get('manufacturingDate');
   }
 
   async save(modal: TemplateRef<any>, equipment?: Equipment) {

@@ -64,7 +64,6 @@ export class DepartmentComponent implements OnInit {
         await this.departmentService.insert(this.form.value);
         this.notifierService.success('Departamento adicionado com sucesso!');
       }
-
     } catch (err) {
       if (err != 'close' && err != 0 && err != 1) {
         this.notifierService.error('Erro ao executar ação.');
