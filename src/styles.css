@@ -1,5 +1,9 @@
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
 .bg-color {
-  background-color: #dbdbdb !important;
+  background-color: #f6f8fc !important;
 }
 
 .bg-light {
@@ -12,4 +16,25 @@
 
 .nav-link:hover {
   color: #124a9e !important;
+}
+
+th {
+  font-size: 1rem;
+  font-weight: 550;
+}
+
+label {
+  font-weight: 550;
+}
+
+input {
+  background-color: #f9f9fa !important;
+}
+
+.modal-header {
+  background-color: #f9f9fa;
+}
+
+.modal-title {
+  color: #0B5ED7;
 }
