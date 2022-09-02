@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { NotifierService } from '../shared/services/notifier.service';
@@ -24,8 +24,8 @@ export class DepartmentComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       id: new FormControl(),
-      name: new FormControl(),
-      phone: new FormControl(),
+      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      phone: new FormControl('', [Validators.required]),
     });
 
     this.departments$ = this.departmentService.getAll();
@@ -57,12 +57,16 @@ export class DepartmentComponent implements OnInit {
     try {
       await this.modalService.open(modal).result;
 
-      if (department) {
-        await this.departmentService.update(this.form.value);
-        this.notifierService.success('Departamento atualizado com sucesso!');
+      if (this.form.dirty && this.form.valid) {
+        if (department) {
+          await this.departmentService.update(this.form.value);
+          this.notifierService.success('Departamento atualizado com sucesso!');
+        } else {
+          await this.departmentService.insert(this.form.value);
+          this.notifierService.success('Departamento adicionado com sucesso!');
+        }
       } else {
-        await this.departmentService.insert(this.form.value);
-        this.notifierService.success('Departamento adicionado com sucesso!');
+        this.notifierService.error('O formulário deve ser preenchido corretamente.');
       }
     } catch (err) {
       if (err != 'close' && err != 0 && err != 1) {
@@ -72,7 +76,11 @@ export class DepartmentComponent implements OnInit {
   }
 
   async delete(department: Department) {
-    this.departmentService.delete(department);
-    this.notifierService.success('Departamento excluído com sucesso');
+    try {
+      this.departmentService.delete(department);
+      this.notifierService.success('Departamento excluído com sucesso');
+    } catch (error) {
+      this.notifierService.error('Erro ao deletar departamento.');
+    }
   }
 }

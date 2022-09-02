@@ -67,34 +67,50 @@
       <div class="form-group mb-3">
         <label for="name" class="form-label">Nome</label>
         <input formControlName="name"
+          [ngClass]="(name?.touched && name?.invalid) ? 'is-invalid' : '' || (name?.touched && name?.valid) ? 'is-valid' : ''"
           class="form-control"
           type="text"
           placeholder="Digite o nome do funcionário"
           maxlength="40">
+          <div class="invalid-feedback" *ngIf="name?.touched && name?.invalid">
+            <span *ngIf="name?.errors?.['required']">Nome é obrigatório</span>
+            <span *ngIf="name?.errors?.['minlength']">Nome deve conter ao menos 3 caracteres</span>
+          </div>
       </div>
 
       <div class="form-group mb-3">
         <label for="function" class="form-label">Função</label>
         <input formControlName="function"
+          [ngClass]="(function?.touched && function?.invalid) ? 'is-invalid' : '' || (function?.touched && function?.valid) ? 'is-valid' : ''"
           class="form-control"
           type="text"
           placeholder="Digite a função do funcionário"
           maxlength="30">
+          <div class="invalid-feedback" *ngIf="function?.touched && function?.invalid">
+            <span *ngIf="function?.errors?.['required']">Função é obrigatório</span>
+            <span *ngIf="function?.errors?.['minlength']">Função deve conter ao menos 5 caracteres</span>
+          </div>
       </div>
 
       <div class="form-group mb-3">
         <label for="email" class="form-label">E-mail</label>
         <input formControlName="email"
+          [ngClass]="(email?.touched && email?.invalid) ? 'is-invalid' : '' || (email?.touched && email?.valid) ? 'is-valid' : ''"
           class="form-control"
           type="text"
           placeholder="Digite o e-mail do funcionário">
+          <div class="invalid-feedback" *ngIf="email?.touched && email?.invalid">
+            <span *ngIf="email?.errors?.['required']">E-mail é obrigatório</span>
+            <span *ngIf="email?.errors?.['email']">E-mail inválido</span>
+          </div>
       </div>
 
       <div class="form-group mb-3">
         <label for="manufacturingDate" class="form-label">Departamento</label>
         <ng-select formControlName="departmentId"
         [clearable]="false"
-        [searchable]="false">
+        [searchable]="false"
+        required>
           <ng-option
            *ngFor="let department of (departments$ | async)"
            [value]="department.id">
@@ -104,9 +120,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('close')">
-        Cancelar</button>
-      <button type="submit" class="btn btn-primary col-md-3">Cadastrar</button>
+      <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('close')">Cancelar</button>
+      <button type="submit" class="btn btn-primary col-md-3" [disabled]="this.form.invalid">Cadastrar</button>
     </div>
   </form>
 </ng-template>

@@ -1,5 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { Department } from '../departments/models/department.model';
@@ -28,9 +33,9 @@ export class EmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       id: new FormControl(),
-      name: new FormControl(),
-      function: new FormControl(),
-      email: new FormControl(),
+      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      function: new FormControl('', [Validators.required, Validators.minLength(5)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       departmentId: new FormControl(),
       department: new FormControl(),
     });
@@ -79,12 +84,16 @@ export class EmployeeComponent implements OnInit {
     try {
       await this.modalService.open(modal).result;
 
-      if (employee) {
-        await this.employeeService.update(this.form.value);
-        this.notifierService.success('Funcionário atualizado com sucesso!');
+      if (this.form.dirty && this.form.valid) {
+        if (employee) {
+          await this.employeeService.update(this.form.value);
+          this.notifierService.success('Funcionário atualizado com sucesso!');
+        } else {
+          await this.employeeService.insert(this.form.value);
+          this.notifierService.success('Funcionário adicionado com sucesso!');
+        }
       } else {
-        await this.employeeService.insert(this.form.value);
-        this.notifierService.success('Funcionário adicionado com sucesso!');
+        this.notifierService.error('O formulário deve ser preenchido corretamente.');
       }
     } catch (err) {
       console.log(err);

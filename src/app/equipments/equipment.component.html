@@ -67,41 +67,58 @@
       <div class="form-group mb-3">
         <label for="serialNumber" class="form-label">N° de Série</label>
         <input formControlName="serialNumber"
+          [ngClass]="(serialNumber?.touched && serialNumber?.invalid) ? 'is-invalid' : '' || (serialNumber?.touched && serialNumber?.valid) ? 'is-valid' : ''"
           class="form-control"
           type="text"
           mask="SSSS-000"
           [showMaskTyped]="true">
+          <div class="invalid-feedback" *ngIf="serialNumber?.touched && serialNumber?.invalid">
+            <span *ngIf="serialNumber?.errors?.['required']">Número de Série é obrigatório</span>
+          </div>
       </div>
 
       <div class="form-group mb-3">
         <label for="name" class="form-label">Nome do Equipamento</label>
         <input formControlName="name"
+          [ngClass]="(name?.touched && name?.invalid) ? 'is-invalid' : '' || (name?.touched && name?.valid) ? 'is-valid' : ''"
           class="form-control"
           type="text"
           placeholder="Digite o nome do equipamento"
           maxlength="30">
+          <div class="invalid-feedback" *ngIf="name?.touched && name?.invalid">
+            <span *ngIf="name?.errors?.['required']">Nome é obrigatório</span>
+            <span *ngIf="name?.errors?.['minlength']">Nome deve conter ao menos 3 caracteres</span>
+          </div>
       </div>
 
       <div class="form-group mb-3">
         <label for="price" class="form-label">Preço de Aquisição</label>
         <input formControlName="price"
+          [ngClass]="(price?.touched && price?.invalid) ? 'is-invalid' : '' || (price?.touched && price?.valid) ? 'is-valid' : ''"
           currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"
           class="form-control"
           type="text"
           placeholder="R$ 0,00">
+          <div class="invalid-feedback" *ngIf="price?.touched && price?.invalid">
+            <span *ngIf="price?.errors?.['required']">Preço de Aquisição é obrigatório</span>
+          </div>
       </div>
 
       <div class="form-group mb-3">
         <label for="manufacturingDate" class="form-label">Data de Fabricação</label>
         <input formControlName="manufacturingDate"
+          [ngClass]="(manufacturingDate?.touched && manufacturingDate?.invalid) ? 'is-invalid' : '' || (manufacturingDate?.touched && manufacturingDate?.valid) ? 'is-valid' : ''"
           class="form-control"
           type="date">
+          <div class="invalid-feedback" *ngIf="manufacturingDate?.touched && manufacturingDate?.invalid">
+            <span *ngIf="manufacturingDate?.errors?.['required']">Data de Fabricação é obrigatória</span>
+          </div>
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('close')">
         Cancelar</button>
-      <button type="submit" class="btn btn-primary col-md-3">Cadastrar</button>
+      <button type="submit" class="btn btn-primary col-md-3" [disabled]="this.form.invalid">Cadastrar</button>
     </div>
   </form>
 </ng-template>

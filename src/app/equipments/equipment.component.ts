@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { NotifierService } from '../shared/services/notifier.service';
@@ -24,10 +24,10 @@ export class EquipmentComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       id: new FormControl(),
-      serialNumber: new FormControl(),
-      name: new FormControl(),
-      price: new FormControl(),
-      manufacturingDate: new FormControl(),
+      serialNumber: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      price: new FormControl('', [Validators.required]),
+      manufacturingDate: new FormControl('', [Validators.required]),
     });
 
     this.equipments$ = this.equipmentService.getAll();
@@ -67,12 +67,16 @@ export class EquipmentComponent implements OnInit {
     try {
       await this.modalService.open(modal).result;
 
-      if (equipment) {
-        await this.equipmentService.update(this.form.value);
-        this.notifierService.success('Equipamento atualizado com sucesso!');
+      if (this.form.dirty && this.form.valid) {
+        if (equipment) {
+          await this.equipmentService.update(this.form.value);
+          this.notifierService.success('Equipamento atualizado com sucesso!');
+        } else {
+          await this.equipmentService.insert(this.form.value);
+          this.notifierService.success('Equipamento adicionado com sucesso!');
+        }
       } else {
-        await this.equipmentService.insert(this.form.value);
-        this.notifierService.success('Equipamento adicionado com sucesso!');
+        this.notifierService.error('O formulário deve ser preenchido corretamente.');
       }
     } catch (err) {
       console.log(err);
@@ -83,7 +87,11 @@ export class EquipmentComponent implements OnInit {
   }
 
   async delete(equipment: Equipment) {
-    this.equipmentService.delete(equipment);
-    this.notifierService.success('Equipamento excluído com sucesso');
+    try {
+      this.equipmentService.delete(equipment);
+      this.notifierService.success('Equipamento excluído com sucesso');
+    } catch (error) {
+      this.notifierService.error('Erro ao deletar equipamento.');
+    }
   }
 }
