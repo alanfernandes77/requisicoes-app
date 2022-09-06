@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -7,6 +8,7 @@ import {
 } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
+import { AuthenticationService } from '../auth/services/authentication.service';
 import { Department } from '../departments/models/department.model';
 import { DepartmentService } from '../departments/services/department.service';
 import { NotifierService } from '../shared/services/notifier.service';
@@ -23,6 +25,7 @@ export class EmployeeComponent implements OnInit {
   form: FormGroup;
 
   constructor(
+    private authService: AuthenticationService,
     private notifierService: NotifierService,
     private employeeService: EmployeeService,
     private departmentService: DepartmentService,
@@ -32,15 +35,18 @@ export class EmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      id: new FormControl(),
-      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      function: new FormControl('', [
-        Validators.required,
-        Validators.minLength(5),
-      ]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      departmentId: new FormControl(),
-      department: new FormControl(),
+      employee: new FormGroup({
+        id: new FormControl(),
+        name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        function: new FormControl('', [
+          Validators.required,
+          Validators.minLength(5),
+        ]),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        departmentId: new FormControl(),
+        department: new FormControl(),
+      }),
+      password: new FormControl()
     });
 
     this.employees$ = this.employeeService.getAll();
@@ -51,24 +57,28 @@ export class EmployeeComponent implements OnInit {
     return this.id?.value ? 'Atualização' : 'Cadastro';
   }
 
-  get id() {
-    return this.form.get('id');
+  get id(): AbstractControl | null {
+    return this.form.get('employee.id');
   }
 
-  get name() {
-    return this.form.get('name');
+  get name(): AbstractControl | null {
+    return this.form.get('employee.name');
   }
 
-  get function() {
-    return this.form.get('function');
+  get function(): AbstractControl | null {
+    return this.form.get('employee.function');
   }
 
-  get email() {
-    return this.form.get('email');
+  get email(): AbstractControl | null {
+    return this.form.get('employee.email');
   }
 
-  get department() {
-    return this.form.get('department');
+  get department(): AbstractControl | null {
+    return this.form.get('employee.department');
+  }
+
+  get password(): AbstractControl | null {
+    return this.form.get('password');
   }
 
   async save(modal: TemplateRef<any>, employee?: Employee) {
@@ -81,7 +91,7 @@ export class EmployeeComponent implements OnInit {
         department,
       };
 
-      this.form.setValue(fullEmployee);
+      this.form.get('employee')?.setValue(fullEmployee);
     }
 
     try {
@@ -89,15 +99,19 @@ export class EmployeeComponent implements OnInit {
 
       if (this.form.dirty && this.form.valid) {
         if (employee) {
-          await this.employeeService.update(this.form.value);
+          await this.employeeService.update(this.form.get('employee')?.value);
           this.notifierService.success('Funcionário atualizado com sucesso!');
         } else {
-          await this.employeeService.insert(this.form.value);
+          const currentUser = this.authService.getUser();
+
+          await this.authService.register(this.email?.value, this.password?.value);
+          await this.employeeService.insert(this.form.get('employee')?.value);
+          await this.authService.updateUser(await currentUser);
+
           this.notifierService.success('Funcionário adicionado com sucesso!');
         }
       } else {
-        this.notifierService.error(
-          'O formulário deve ser preenchido corretamente.'
+        this.notifierService.error('O formulário deve ser preenchido corretamente.'
         );
       }
     } catch (err) {

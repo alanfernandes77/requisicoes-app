@@ -14,11 +14,23 @@ export class AuthenticationService {
     this.authenticatedUser = auth.authState;
   }
 
+  getUser(): Promise<firebase.User | null> {
+    return this.auth.currentUser;
+  }
+
+  updateUser(user: firebase.User | null) {
+    return this.auth.updateCurrentUser(user);
+  }
+
+  register(email: string, password: string): Promise<firebase.auth.UserCredential> {
+    return this.auth.createUserWithEmailAndPassword(email, password);
+  }
+
   authenticate(email: string, password: string): Promise<firebase.auth.UserCredential> {
     return this.auth.signInWithEmailAndPassword(email, password);
   }
 
-  public logout(): Promise<void> {
+  logout(): Promise<void> {
     return this.auth.signOut();
   }
 
