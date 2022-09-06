@@ -85,12 +85,12 @@
         <textarea formControlName="description"
           [ngClass]="(description?.touched && description?.invalid) ? 'is-invalid' : '' || (description?.touched && description?.valid) ? 'is-valid' : ''"
           class="form-control"
+          rows="4"
           type="text"
           placeholder="Digite a descrição do problema">
         </textarea>
           <div class="invalid-feedback" *ngIf="description?.touched && description?.invalid">
             <span *ngIf="description?.errors?.['required']">Descrição é obrigatório</span>
-            <span *ngIf="description?.errors?.['minlength']">Descrição deve conter ao menos 5 caracteres</span>
           </div>
       </div>
 

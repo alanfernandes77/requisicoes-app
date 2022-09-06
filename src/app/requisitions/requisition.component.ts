@@ -41,8 +41,7 @@ export class RequisitionComponent implements OnInit {
       department: new FormControl(),
       departmentId: new FormControl(),
       description: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
+        Validators.required
       ]),
       equipment: new FormControl(),
       equipmentId: new FormControl(),
