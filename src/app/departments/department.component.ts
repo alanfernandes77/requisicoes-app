@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { NotifierService } from '../shared/services/notifier.service';
@@ -35,15 +35,15 @@ export class DepartmentComponent implements OnInit {
     return this.id?.value ? 'Atualização' : 'Cadastro';
   }
 
-  get id() {
+  get id(): AbstractControl | null {
     return this.form.get('id');
   }
 
-  get name() {
+  get name(): AbstractControl | null {
     return this.form.get('name');
   }
 
-  get phone() {
+  get phone(): AbstractControl | null {
     return this.form.get('phone');
   }
 

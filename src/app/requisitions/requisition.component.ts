@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -56,23 +57,23 @@ export class RequisitionComponent implements OnInit {
     return this.id?.value ? 'Atualização' : 'Cadastro';
   }
 
-  get id() {
+  get id(): AbstractControl | null {
     return this.form.get('id');
   }
 
-  get creationDate() {
+  get creationDate(): AbstractControl | null {
     return this.form.get('creationDate');
   }
 
-  get department() {
+  get department(): AbstractControl | null {
     return this.form.get('department');
   }
 
-  get description() {
+  get description(): AbstractControl | null {
     return this.form.get('description');
   }
 
-  get equipment() {
+  get equipment(): AbstractControl | null {
     return this.form.get('equipment');
   }
 
