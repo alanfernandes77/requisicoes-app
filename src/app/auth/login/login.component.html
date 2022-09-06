@@ -11,24 +11,33 @@
               <label for="email" class="form-label fs-5">Email</label>
               <input
                 formControlName="email"
+                [ngClass]="(email?.touched && email?.invalid) ? 'is-invalid' : '' || (email?.touched && email?.valid) ? 'is-valid' : ''"
                 class="form-control"
                 type="email"
                 placeholder="Digite seu endereço de email">
+                <div class="invalid-feedback" *ngIf="email?.touched && email?.invalid">
+                  <span *ngIf="email?.errors?.['required']">E-mail é obrigatório</span>
+                  <span *ngIf="email?.errors?.['email']">E-mail inválido</span>
+                </div>
             </div>
 
             <div class="form-group my-4">
               <label for="password" class="form-label fs-5">Senha</label>
               <input
                 formControlName="password"
+                [ngClass]="(password?.touched && password?.invalid) ? 'is-invalid' : '' || (password?.touched && password?.valid) ? 'is-valid' : ''"
                 class="form-control"
                 type="password"
                 placeholder="Digite sua senha">
+                <div class="invalid-feedback" *ngIf="password?.touched && password?.invalid">
+                  <span *ngIf="password?.errors?.['required']">Senha é obrigatória</span>
+                </div>
             </div>
 
             <a role="button" class="text-primary text-decoration-none" (click)="openRecoveryPasswordModal(content)">Esqueceu sua senha?</a>
 
             <div class="d-grid mx-4 gap-2 mt-3">
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid">
                 <i class="pi pi-sign-in me-2"></i>Login</button>
             </div>
           </form>
@@ -50,16 +59,22 @@
       </div>
       <div class="form-group mb-3">
         <label for="emailToRecovery" class="form-label">Endereço de email</label>
-        <input formControlName="emailToRecovery"
+        <input
+          formControlName="emailToRecovery"
+          [ngClass]="(emailToRecovery?.touched && emailToRecovery?.invalid) ? 'is-invalid' : '' || (emailToRecovery?.touched && emailToRecovery?.valid) ? 'is-valid' : ''"
           class="form-control"
           type="email"
           placeholder="Digite o endereço de email">
+          <div class="invalid-feedback" *ngIf="emailToRecovery?.touched && emailToRecovery?.invalid">
+            <span *ngIf="emailToRecovery?.errors?.['required']">E-mail é obrigatório</span>
+            <span *ngIf="emailToRecovery?.errors?.['email']">E-mail inválido</span>
+          </div>
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('close')">
         Cancelar</button>
-      <button type="submit" class="btn btn-primary col-md-3">Enviar</button>
+      <button type="submit" class="btn btn-primary col-md-3" [disabled]="this.formPasswordRecovery.invalid">Enviar</button>
     </div>
   </form>
 </ng-template>

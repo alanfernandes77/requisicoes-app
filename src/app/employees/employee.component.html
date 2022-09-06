@@ -98,7 +98,7 @@
           <input formControlName="email"
             [ngClass]="(email?.touched && email?.invalid) ? 'is-invalid' : '' || (email?.touched && email?.valid) ? 'is-valid' : ''"
             class="form-control"
-            type="text"
+            type="email"
             placeholder="Digite o e-mail do funcionário">
             <div class="invalid-feedback" *ngIf="email?.touched && email?.invalid">
               <span *ngIf="email?.errors?.['required']">E-mail é obrigatório</span>
@@ -131,7 +131,7 @@
           placeholder="Digite a senha do funcionário"
           maxlength="40">
           <div class="invalid-feedback" *ngIf="password?.touched && password?.invalid">
-            <span *ngIf="password?.errors?.['required']">Senha é obrigatório</span>
+            <span *ngIf="password?.errors?.['required']">Senha é obrigatória</span>
             <span *ngIf="password?.errors?.['minlength']">Senha deve conter ao menos 3 caracteres</span>
           </div>
       </div>

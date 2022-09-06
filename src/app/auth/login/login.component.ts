@@ -4,21 +4,23 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NotifierService } from 'src/app/shared/services/notifier.service';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
   public form: FormGroup;
   public formPasswordRecovery: FormGroup;
 
   constructor(
+    private notifierService: NotifierService,
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private router: Router,
@@ -27,12 +29,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      email: new FormControl(),
-      password: new FormControl(),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
     });
 
     this.formPasswordRecovery = this.formBuilder.group({
-      emailToRecovery: new FormControl()
+      emailToRecovery: new FormControl('', [Validators.required, Validators.email])
     });
   }
 
@@ -58,8 +60,8 @@ export class LoginComponent implements OnInit {
       if (response?.user) {
         this.router.navigate(['/panel']);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (_err) {
+      this.notifierService.error('Usuário não encontrado.');
     }
   }
 
