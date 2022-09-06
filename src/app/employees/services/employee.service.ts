@@ -36,19 +36,18 @@ export class EmployeeService {
   }
 
   getAll(): Observable<Employee[]> {
-    return this.registers.valueChanges()
-      .pipe(
-        map((employees: Employee[]) => {
-          employees.forEach(employee => {
-            this.firestore
+    return this.registers.valueChanges().pipe(
+      map((employees: Employee[]) => {
+        employees.forEach((employee) => {
+          this.firestore
             .collection<Department>('departments')
             .doc(employee.departmentId)
             .valueChanges()
-            .subscribe(department => employee.department = department);
-          });
+            .subscribe((department) => (employee.department = department));
+        });
 
-          return employees;
-        })
-      );
+        return employees;
+      })
+    );
   }
 }

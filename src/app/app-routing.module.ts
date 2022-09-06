@@ -29,6 +29,15 @@ const routes: Routes = [
       import('./employees/employee.module').then((m) => m.EmployeeModule),
     canActivate: [AuthGuard],
   },
+
+  {
+    path: 'requisitions',
+    loadChildren: () =>
+      import('./requisitions/requisition.module').then(
+        (m) => m.RequisitionModule
+      ),
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({

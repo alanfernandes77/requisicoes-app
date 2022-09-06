@@ -34,7 +34,10 @@ export class EmployeeComponent implements OnInit {
     this.form = this.formBuilder.group({
       id: new FormControl(),
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      function: new FormControl('', [Validators.required, Validators.minLength(5)]),
+      function: new FormControl('', [
+        Validators.required,
+        Validators.minLength(5),
+      ]),
       email: new FormControl('', [Validators.required, Validators.email]),
       departmentId: new FormControl(),
       department: new FormControl(),
@@ -93,10 +96,11 @@ export class EmployeeComponent implements OnInit {
           this.notifierService.success('Funcionário adicionado com sucesso!');
         }
       } else {
-        this.notifierService.error('O formulário deve ser preenchido corretamente.');
+        this.notifierService.error(
+          'O formulário deve ser preenchido corretamente.'
+        );
       }
     } catch (err) {
-      console.log(err);
       if (err != 'close' && err != 0 && err != 1) {
         this.notifierService.error('Erro ao executar ação.');
       }
