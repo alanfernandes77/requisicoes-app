@@ -3,7 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { map, Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { Department } from 'src/app/departments/models/department.model';
 import { Employee } from '../models/employee.model';
 
@@ -49,5 +49,17 @@ export class EmployeeService {
         return employees;
       })
     );
+  }
+
+  getLoggedEmployee(email: string): Observable<Employee> {
+    return this.firestore.
+      collection<Employee>('employees', ref => {
+        return ref.where('email', '==', email)
+      })
+      .valueChanges()
+      .pipe(
+        take(1),
+        map(employees => employees[0])
+      );
   }
 }

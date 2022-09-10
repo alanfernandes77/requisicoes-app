@@ -1,0 +1,117 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-10 col-lg-9 mx-auto">
+      <div class="text-center text-md-start">
+        <h1 class="fw-bold ">Minhas Requisições</h1>
+      </div>
+
+      <div class="d-grid gap-2 d-md-block mt-4">
+        <button
+        (click)="save(modal)"
+        type="button"
+        class="btn btn-primary me-md-1 col-md-2">
+        <i class="pi pi-user-plus me-2"></i>Novo
+        </button>
+        <a
+        role="button"
+        class="btn btn-outline-primary col-md-2"
+        routerLink="/panel">
+        <i class="pi pi-sign-out me-2"></i>Voltar
+        </a>
+      </div>
+      <div class="mt-5">
+        <table class="table table-light table-striped table-hover table-bordered">
+          <thead class="thead-dark text-center">
+            <tr>
+              <th>Data de Abertura</th>
+              <th>Departamento</th>
+              <th>Descrição</th>
+              <th>Equipamento</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody class="text-center">
+            <tr *ngFor="let requisition of (requisitions$ | async)">
+              <td>{{ requisition.creationDate.toDate() | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ requisition.department?.name }}</td>
+              <td>{{ requisition.description }}</td>
+              <td>{{ requisition.equipment ? requisition.equipment.name : 'Não Selecionado' }}</td>
+              <td class="d-grid d-md-block">
+                <button
+                (click)="save(modal, requisition)"
+                type="button"
+                class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto">
+                <i class="pi pi-user-edit"></i></button>
+                <button
+                (click)="delete(requisition)"
+                type="button"
+                class="btn btn-outline-danger">
+                <i class="pi pi-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ modalTitle }} de Requisição</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('close')"></button>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="modal.close('save')">
+    <div class="modal-body">
+
+      <div class="form-group mb-3">
+        <label for="manufacturingDate" class="form-label">Departamento</label>
+        <ng-select formControlName="departmentId"
+        class="w-75"
+        placeholder="Selecione um departamento"
+        [clearable]="false"
+        [searchable]="false"
+        required>
+          <ng-option
+           *ngFor="let department of (departments$ | async)"
+           [value]="department.id">
+            {{ department.name }}
+          </ng-option>
+        </ng-select>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="function" class="form-label">Descrição</label>
+        <textarea formControlName="description"
+          [ngClass]="(description?.touched && description?.invalid) ? 'is-invalid' : '' || (description?.touched && description?.valid) ? 'is-valid' : ''"
+          class="form-control"
+          rows="4"
+          type="text"
+          placeholder="Digite a descrição do problema">
+        </textarea>
+          <div class="invalid-feedback" *ngIf="description?.touched && description?.invalid">
+            <span *ngIf="description?.errors?.['required']">Descrição é obrigatório</span>
+          </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="manufacturingDate" class="form-label">Equipamento (opcional)</label>
+        <ng-select formControlName="equipmentId"
+        class="w-75"
+        placeholder="Selecione um equipmento"
+        [searchable]="false">
+          <ng-option
+           *ngFor="let equipment of (equipments$ | async)"
+           [value]="equipment.id"> {{ equipment?.name }}
+          </ng-option>
+        </ng-select>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('close')">Cancelar</button>
+      <button type="submit" class="btn btn-primary col-md-3" [disabled]="this.form.invalid">Cadastrar</button>
+    </div>
+  </form>
+</ng-template>

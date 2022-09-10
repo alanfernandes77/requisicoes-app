@@ -5,8 +5,9 @@ import {
 } from '@angular/fire/compat/firestore';
 import { map, Observable } from 'rxjs';
 import { Department } from 'src/app/departments/models/department.model';
+import { Employee } from 'src/app/employees/models/employee.model';
 import { Equipment } from 'src/app/equipments/models/equipment.model';
-import { Requisition } from '../models/requisition.model';
+import { Requisition } from '../models/employee-requisition.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class RequisitionService {
   }
 
   async update(requisition: Requisition): Promise<void> {
-    return this.registers.doc(requisition.id).update(requisition);
+    return this.registers.doc(requisition.id).set(requisition);
   }
 
   async delete(requisition: Requisition): Promise<void> {
@@ -47,14 +48,31 @@ export class RequisitionService {
             .subscribe((department) => (requisition.department = department));
 
           this.firestore
-            .collection<Equipment>('equipments')
-            .doc(requisition.equipmentId)
+            .collection<Employee>('employees')
+            .doc(requisition.employeeId)
             .valueChanges()
-            .subscribe((Equipment) => (requisition.equipment = Equipment));
+            .subscribe(employee => (requisition.employee = employee));
+
+          if (requisition.equipmentId) {
+            this.firestore
+              .collection<Equipment>('equipments')
+              .doc(requisition.equipmentId)
+              .valueChanges()
+              .subscribe((equipment) => (requisition.equipment = equipment));
+          } else {
+            requisition.equipment = undefined;
+          }
         });
 
         return requisitions;
       })
     );
+  }
+
+  getEmployeeRequisitions(id: string) {
+    return this.getAll()
+      .pipe(
+        map(requisicoes => requisicoes.filter(requisition => requisition.employeeId === id))
+      )
   }
 }
