@@ -9,9 +9,10 @@ import { RequisitionService } from './services/requisition.service';
 import { EmployeeRequisitionsComponent } from './employee-requisitions/employee-requisitions.component';
 import { DepartmentRequisitionsComponent } from './department-requisitions/department-requisitions.component';
 import { DetailsComponent } from './details/details.component';
+import { RequisitionDetailsComponent } from './details/requisition-details/requisition-details.component';
 
 @NgModule({
-  declarations: [RequisitionComponent, EmployeeRequisitionsComponent, DepartmentRequisitionsComponent, DetailsComponent],
+  declarations: [RequisitionComponent, EmployeeRequisitionsComponent, DepartmentRequisitionsComponent, DetailsComponent, RequisitionDetailsComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
