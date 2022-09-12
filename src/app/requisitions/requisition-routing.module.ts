@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DepartmentRequisitionsComponent } from './department-requisitions/department-requisitions.component';
+import { DetailsComponent } from './details/details.component';
 import { EmployeeRequisitionsComponent } from './employee-requisitions/employee-requisitions.component';
 import { RequisitionComponent } from './requisition.component';
+import { RequisitionResolver } from './services/requisition.resolver';
 
 const routes: Routes = [
   {
@@ -22,6 +24,11 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: ':id',
+    component: DetailsComponent,
+    resolve: { requisition: RequisitionResolver }
+  }
 ];
 
 @NgModule({

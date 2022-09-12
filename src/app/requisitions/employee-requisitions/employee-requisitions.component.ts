@@ -9,8 +9,8 @@ import { EmployeeService } from 'src/app/employees/services/employee.service';
 import { Equipment } from 'src/app/equipments/models/equipment.model';
 import { EquipmentService } from 'src/app/equipments/services/equipment.service';
 import { NotifierService } from 'src/app/shared/services/notifier.service';
-import { Requisition } from './models/employee-requisition.model';
-import { RequisitionService } from './services/employee-requisition.service';
+import { Requisition } from '../models/requisition.model';
+import { RequisitionService } from '../services/requisition.service';
 
 @Component({
   selector: 'app-employee-requisitions',
@@ -50,6 +50,10 @@ export class EmployeeRequisitionsComponent implements OnInit, OnDestroy {
 
       equipmentId: new FormControl(),
       equipment: new FormControl(),
+
+      status: new FormControl(),
+      lastUpdate: new FormControl(),
+      movements: new FormControl(),
     });
 
     this.authenticatedProcess$ = this.authService.authenticatedUser.subscribe(user => {
@@ -97,7 +101,9 @@ export class EmployeeRequisitionsComponent implements OnInit, OnDestroy {
   async save(modal: TemplateRef<any>, requisition?: Requisition) {
     this.form.reset();
 
+    this.form.get('status')?.setValue('Aberto');
     this.form.get('creationDate')?.setValue(new Date());
+    this.form.get('lastUpdate')?.setValue(new Date());
     this.form.get('equipmentId')?.setValue(null);
     this.form.get('employeeId')?.setValue(this.loggedEmployeeId);
 

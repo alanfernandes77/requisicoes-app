@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 col-md-10 col-lg-9 mx-auto">
       <div class="text-center text-md-start">
-        <h1 class="fw-bold ">Minhas Requisições</h1>
+        <h1 class="fw-bold">Minhas Requisições</h1>
       </div>
 
       <div class="d-grid gap-2 d-md-block mt-4">
@@ -39,15 +39,23 @@
               <td>{{ requisition.equipment ? requisition.equipment.name : 'Não Selecionado' }}</td>
               <td class="d-grid d-md-block">
                 <button
-                (click)="save(modal, requisition)"
+                [routerLink]="['/requisitions', requisition.id]"
                 type="button"
                 class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto">
-                <i class="pi pi-user-edit"></i></button>
+                <i class="pi pi-tags"></i>
+                </button>
+                <button
+                (click)="save(modal, requisition)"
+                type="button"
+                class="btn btn-outline-primary me-0 me-md-1 mb-1 mb-md-auto">
+                <i class="pi pi-user-edit"></i>
+                </button>
                 <button
                 (click)="delete(requisition)"
                 type="button"
                 class="btn btn-outline-danger">
-                <i class="pi pi-trash"></i></button>
+                <i class="pi pi-trash"></i>
+                </button>
               </td>
             </tr>
           </tbody>

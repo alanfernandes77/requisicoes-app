@@ -5,32 +5,106 @@
         <h1 class="fw-bold ">Requisições para meu Departamento</h1>
       </div>
 
-      <div class="d-grid gap-2 d-md-block mt-4">
-        <button
-        type="button"
-        class="btn btn-primary me-md-1 col-md-2">
-        <i class="pi pi-user-plus me-2"></i>Novo
-        </button>
-        <a
-        role="button"
-        class="btn btn-outline-primary col-md-2"
-        routerLink="/panel">
-        <i class="pi pi-sign-out me-2"></i>Voltar
-        </a>
-      </div>
       <div class="mt-5">
         <table class="table table-light table-striped table-hover table-bordered">
           <thead class="thead-dark text-center">
             <tr>
+              <th>Solicitante</th>
               <th>Data de Abertura</th>
-              <th>Departamento</th>
               <th>Descrição</th>
               <th>Equipamento</th>
+              <th>Status</th>
+              <th>Ultima Atualização</th>
+              <th>Movimentações</th>
               <th>Ações</th>
             </tr>
           </thead>
+
+          <tbody class="text-center">
+            <tr *ngFor="let requisition of (requisitions$ | async)">
+              <td>{{ requisition.employee?.name }}</td>
+              <td>{{ requisition.creationDate.toDate() | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ requisition.description }}</td>
+              <td>{{ requisition.equipment ? requisition.equipment.name : 'Não Selecionado' }}</td>
+              <td>{{ requisition.status }}</td>
+              <td>{{ requisition.lastUpdate.toDate() | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ requisition.movements ? requisition.movements.length : 0 }} </td>
+              <td class="d-grid d-md-block">
+                <button
+                (click)="save(modal, requisition)"
+                type="button"
+                class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto">
+                <i class="pi pi-check-square"></i></button>
+                <button
+                [routerLink]="['/requisitions', requisition.id]"
+                type="button"
+                class="btn btn-outline-primary">
+                <i class="pi pi-tags"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Movimentação de Requisição</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('close')"></button>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="modal.close('save')">
+    <div class="modal-body">
+
+      <div class="form-group mb-3">
+        <label for="employee" class="form-label">Funcionário Solicitante</label>
+        <p class="text-primary fw-semibold">{{ loggedEmployee.name }}</p>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="manufacturingDate" class="form-label">Equipamento</label>
+        <p>{{ selectedRequisition.equipment ? selectedRequisition.equipment.name : "Não informado" }}</p>
+      </div>
+
+      <div class="form-grou- mb-3">
+        <label for="name" class="form-label">Descrição da Solicitação</label>
+        <p>{{ selectedRequisition.description }}</p>
+      </div>
+
+      <hr>
+      <div class="form-group mb-3">
+        <label for="status" class="form-label">Status</label>
+        <ng-select
+          placeholder="Status da requisição"
+          [searchable]="false"
+          [clearable]="false"
+          class="w-50"
+          formControlName="status"
+          [items]="statusList">
+        </ng-select>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="function" class="form-label">Descrição da Movimentação</label>
+        <textarea formControlName="description"
+          [ngClass]="(description?.touched && description?.invalid) ? 'is-invalid' : '' || (description?.touched && description?.valid) ? 'is-valid' : ''"
+          class="form-control"
+          rows="4"
+          type="text"
+          placeholder="Digite a descrição da movimentação">
+        </textarea>
+          <div class="invalid-feedback" *ngIf="description?.touched && description?.invalid">
+            <span *ngIf="description?.errors?.['required']">Descrição é obrigatório</span>
+            <span *ngIf="description?.errors?.['minlength']">Descrição deve conter no minímo 6 caracteres</span>
+          </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('close')">Cancelar</button>
+      <button type="submit" class="btn btn-primary col-md-3" [disabled]="this.form.invalid">Salvar</button>
+    </div>
+  </form>
+</ng-template>

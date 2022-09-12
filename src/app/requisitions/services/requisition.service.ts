@@ -3,11 +3,11 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { map, Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { Department } from 'src/app/departments/models/department.model';
 import { Employee } from 'src/app/employees/models/employee.model';
 import { Equipment } from 'src/app/equipments/models/equipment.model';
-import { Requisition } from '../models/employee-requisition.model';
+import { Requisition } from '../models/requisition.model';
 
 @Injectable({
   providedIn: 'root',
@@ -74,5 +74,19 @@ export class RequisitionService {
       .pipe(
         map(requisicoes => requisicoes.filter(requisition => requisition.employeeId === id))
       )
+  }
+
+  getEmployeeDepartmentRequisitions(departmentId: string) {
+    return this.getAll()
+      .pipe(
+        map(requisicoes => requisicoes.filter(requisition => requisition.departmentId === departmentId))
+      )
+  }
+
+  getById(id: string): Observable<Requisition> {
+    return this.getAll()
+    .pipe(
+        take(1),
+        map(requisitions => requisitions.filter(requisition => requisition.id === id)[0]));
   }
 }

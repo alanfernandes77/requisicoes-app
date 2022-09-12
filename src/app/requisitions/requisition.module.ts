@@ -5,12 +5,13 @@ import { RequisitionRoutingModule } from './requisition-routing.module';
 import { RequisitionComponent } from './requisition.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { RequisitionService } from './employee-requisitions/services/employee-requisition.service';
+import { RequisitionService } from './services/requisition.service';
 import { EmployeeRequisitionsComponent } from './employee-requisitions/employee-requisitions.component';
 import { DepartmentRequisitionsComponent } from './department-requisitions/department-requisitions.component';
+import { DetailsComponent } from './details/details.component';
 
 @NgModule({
-  declarations: [RequisitionComponent, EmployeeRequisitionsComponent, DepartmentRequisitionsComponent],
+  declarations: [RequisitionComponent, EmployeeRequisitionsComponent, DepartmentRequisitionsComponent, DetailsComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
