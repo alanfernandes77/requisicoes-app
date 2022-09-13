@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { NotifierService } from '../shared/services/notifier.service';
+import { futureDateValidator } from '../shared/validators/future-date.validator';
 import { Equipment } from './models/equipment.model';
 import { EquipmentService } from './services/equipment.service';
 
@@ -27,7 +28,7 @@ export class EquipmentComponent implements OnInit {
       serialNumber: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       price: new FormControl('', [Validators.required]),
-      manufacturingDate: new FormControl('', [Validators.required]),
+      manufacturingDate: new FormControl('', [Validators.required, futureDateValidator()]),
     });
 
     this.equipments$ = this.equipmentService.getAll();

@@ -112,6 +112,7 @@
           type="date">
           <div class="invalid-feedback" *ngIf="manufacturingDate?.touched && manufacturingDate?.invalid">
             <span *ngIf="manufacturingDate?.errors?.['required']">Data de Fabricação é obrigatória</span>
+            <span *ngIf="manufacturingDate?.errors?.['futureDate']">A data de fabricação deve ser menor que a data de hoje</span>
           </div>
       </div>
     </div>
