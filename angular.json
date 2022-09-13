@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "requicioes-app": {
+    "requisicoes-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/requicioes-app",
+            "outputPath": "dist/requisicoes-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "requicioes-app:build:production"
+              "browserTarget": "requisicoes-app:build:production"
             },
             "development": {
-              "browserTarget": "requicioes-app:build:development"
+              "browserTarget": "requisicoes-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "requicioes-app:build"
+            "browserTarget": "requisicoes-app:build"
           }
         },
         "test": {
@@ -106,5 +106,5 @@
       }
     }
   },
-  "defaultProject": "requicioes-app"
+  "defaultProject": "requisicoes-app"
 }
